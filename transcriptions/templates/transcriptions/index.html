@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Video Transcription</title>
+</head>
+<body>
+    <h1>Upload Video for Transcription</h1>
+    <form id="uploadForm" enctype="multipart/form-data">
+        <input type="file" name="video" accept="video/*">
+        <button type="button" onclick="uploadVideo()">Upload</button>
+    </form>
+    <h2>Transcription</h2>
+    <div id="transcription"></div>
+    <script>
+        function uploadVideo() {
+            var formData = new FormData(document.getElementById('uploadForm'));
+            fetch('/api/transcribe/', {
+                method: 'POST',
+                body: formData
+            }).then(response => response.json())
+              .then(data => {
+                  document.getElementById('transcription').innerText = JSON.stringify(data.transcription, null, 2);
+              });
+        }
+    </script>
+</body>
+</html>
